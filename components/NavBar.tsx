@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useRouter } from 'next/router'
 import { useEffect, useState } from "react";
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 const navList = [{
     name: '关于',
     pathname: '/doc/about'
@@ -47,9 +49,9 @@ export default function NavBar() {
     }, [])
 
     return (
-        <header className="sticky top-0 z-20 hidden border-t border-transparent lg:block backdrop-blur-md bg-white/75 dark:bg-[rgba(12,12,13,.75)] shadow shadow-gray-200 dark:shadow-gray-900">
+        <header className="sticky top-0 z-20 border-t border-transparent block backdrop-blur-md bg-white/75 dark:bg-[rgba(12,12,13,.75)] md:shadow shadow-gray-200 dark:shadow-gray-900">
             <div className="max-w-7xl mx-auto">
-                <div className="py-4 border-b border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 mx-4 lg:mx-0">
+                <div className="py-4 border-b border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 pl-2 md:pl-0 md:mx-4 lg:mx-0">
                     <div className="relative flex items-center">
                         {/* logo */}
                         <Link href="/" className="flex justify-center items-center text-xl font-bold dark:text-white" >
@@ -57,12 +59,20 @@ export default function NavBar() {
                             <span className="inline-flex w-8 h-8 items-center">UCcoin</span>
                         </Link>
                         {/* nav */}
-                        <div className="relative hidden lg:flex items-center ml-auto divide-x divide-gray-200 dark:divide-gray-800">
-                            <ul className="flex ">
+                        <div className="relative flex items-center ml-auto divide-x-0 md:divide-x divide-gray-200 dark:divide-gray-800">
+                            <ul className="hidden md:flex">
                                 {getNavList(router.pathname)}
                             </ul>
                             <div className="flex items-center ml-6 px-6">
-                                <Switch icon={renderIcon(isDark)} checked={isDark} onChange={switchTheme} />
+                                <div className="hidden md:block">
+                                    <Switch icon={renderIcon(isDark)} checked={isDark} onChange={switchTheme} />
+                                </div>
+                                <div className="ml-4">
+                                    <ConnectButton accountStatus={{
+                                        smallScreen: 'avatar',
+                                        largeScreen: 'full',
+                                    }} />
+                                </div>
                             </div>
                         </div>
                     </div>
