@@ -1,0 +1,9 @@
+.borderedDiv {
+  border: 1px solid #ccc; /* 灰色边框 */
+  border-radius: 4px; /* 圆角 */
+  padding: 16px; /* 内边距，使内容与边框保持一定距离 */
+  }
+
+  .boldText {
+    font-weight: bold;
+  }
