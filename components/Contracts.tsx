@@ -13,7 +13,8 @@ import { useState } from 'react'
 import { BigNumber, utils } from 'ethers'
 import styles from '@/styles/test.module.css';
 
-const contract_address = process.env.CONTRACT_ADDRESS as `0x${string}`
+const contract_address = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
+console.log(contract_address)
 export function GetPledgeInfo() {
 
   const { address, isConnecting, isDisconnected, connector } = useAccount()

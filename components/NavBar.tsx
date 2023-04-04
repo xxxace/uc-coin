@@ -55,8 +55,8 @@ export default function NavBar() {
                     <div className="relative flex items-center">
                         {/* logo */}
                         <Link href="/" className="flex justify-center items-center text-xl font-bold dark:text-white" >
-                            <img className="w-8 h-8 -translate-y-0.5" src="/img/logo.jpg" alt="UCcoin" />
-                            <span className="inline-flex w-8 h-8 items-center">UCcoin</span>
+                            <img className="w-6 h-6 mr-2" src="/img/logo.png" alt="UCcoin" />
+                            <span className="inline-flex h-8 items-center">UCcoin</span>
                         </Link>
                         {/* nav */}
                         <div className="relative flex items-center ml-auto divide-x-0 md:divide-x divide-gray-200 dark:divide-gray-800">

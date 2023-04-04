@@ -1,14 +1,15 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider, lightTheme, darkTheme } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { mainnet, sepolia } from 'wagmi/chains';
+import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
 
+const defaultChains = [mainnet, ...(process.env.NEXT_PUBLIC_MODE === 'development' ? [sepolia] : [])]
 const { chains, provider } = configureChains(
-    [mainnet, polygon, optimism, arbitrum],
+    [...defaultChains],
     [
-        alchemyProvider({ apiKey: process.env.ALCHEMY_ID as string }),
+        infuraProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID as string }),
         publicProvider()
     ]
 );
@@ -25,7 +26,9 @@ const wagmiClient = createClient({
 })
 
 export const withRainbowKitProvider = (app) => {
+
     return function (...args) {
+        
         return (
             <WagmiConfig client={wagmiClient}>
                 <RainbowKitProvider theme={{

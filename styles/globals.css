@@ -21,6 +21,14 @@ html.dark {
   --background-end-rgb: 12, 12, 13;
 }
 
+.u-bg-white {
+  background-color: #ffffff;
+}
+
+html.dark .u-bg-white {
+  background-color: #0c0c0d;
+}
+
 html.dark .u-border-gray-200 {
   --tw-border-opacity: 1;
   border-color: #27272a;
