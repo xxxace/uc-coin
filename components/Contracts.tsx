@@ -22,7 +22,7 @@ export function GetPledgeInfo() {
   const [showResult, setShowResult] = useState(false);
 
   // 使用useState钩子来管理输入框的状态
-  const [acc, setAcc] = useState('')
+  // const [acc, setAcc] = useState('')
   const [tokenAddr, setTokenAddr] = useState('')
   const [tokenId, setTokenId] = useState(0)
 
@@ -84,7 +84,7 @@ export function GetPledgeInfo() {
       type: "function"
     }],
     functionName: 'getPledgeInfo',
-    args: [`0x${address}`, `0x${tokenAddr}`, BigNumber.from(tokenId)],
+    args: [address as `0x${string}`, tokenAddr as `0x${string}`, BigNumber.from(tokenId)],
   })
 
   const handleButtonClick = async () => {
@@ -97,8 +97,9 @@ export function GetPledgeInfo() {
       <p>
         <span className={styles.boldText}>返回指定token在指定质押期内的收益情况</span>。
       </p>
-      <label htmlFor="acc">用户地址</label>
-      <input id="acc" name="acc" type="text" value={acc} onChange={(e) => setAcc(e.target.value)} />
+      {/* <label htmlFor="acc">用户地址</label>
+      <input id="acc" name="acc" type="text" value={acc} onChange={(e) => setAcc(e.target.value)} /> */}
+      用户地址:{address + ' '}
       <label htmlFor="tokenAddr">代币地址：</label>
       <input id="tokenAddr" name="tokenAddr" type="text" value={tokenAddr} onChange={(e) => setTokenAddr(e.target.value)} />
       <label htmlFor="tokenId">tokenId：</label>
