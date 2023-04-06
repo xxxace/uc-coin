@@ -15,7 +15,7 @@ const wagmigotchiABI = [{
             "name": "pledgeDays",
             "type": "uint32"
         }
-    ] as const,
+    ],
     "stateMutability": "view",
     "type": "function",
     "name": "getProfitToken",
