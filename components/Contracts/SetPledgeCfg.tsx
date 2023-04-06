@@ -1,6 +1,7 @@
 import { BigNumber } from "ethers";
 import { useState } from "react";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
+import { SendTransactionResult } from '@wagmi/core/dist/index'
 import { PledgeToken, ProfitToken, PayToken, PledgeReturn } from './type'
 import { getPledgeCfg } from "./GetPledgeCfg";
 import styles from '@/styles/test.module.css';
@@ -145,10 +146,21 @@ export function setPledgeCfg({ pledgeToken, payToken, profitToken, pledgeReturn,
 export default function SetPledgeCfg() {
     const [tokenAddr, setTokenAddr] = useState('')
     const [pledgeDays, setPledgeDays] = useState(0)
+    const [data, setData] = useState<SendTransactionResult | undefined>()
+    const [isLoading, setIsLoading] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [write, setWrite] = useState<(() => void) | undefined>()
 
     const { data: pledgeCfg, isLoading: pledgeCfgIsLoading, isError: pledgeCfgIsError } = getPledgeCfg(tokenAddr as `0x${string}`, pledgeDays)
 
-    const { data, isLoading, isSuccess, write } = setPledgeCfg(pledgeCfg!)
+    if (pledgeCfg) {
+        const res = setPledgeCfg(pledgeCfg)
+        setData(res.data)
+        setIsLoading(res.isLoading)
+        setIsSuccess(res.isSuccess)
+        setWrite(res.write)
+    }
+
 
     return (
         <div className={styles.borderedDiv} >
