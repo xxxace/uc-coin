@@ -10,25 +10,13 @@ function Test() {
       {!isConnected ? '未连接,请先连接钱包' : ''}
       {isConnected && (
         <>
+        <Contracts.SetPledgeCfg/>
           <Contracts.GetPledgeInfo />
 
           <Contracts.GetPledgeReqire />
 
           <Contracts.GetPledgeReturn />
 
-          <Contracts.Mint />
-
-          <Contracts.MintPledge />
-
-          <Contracts.PledgeToken />
-
-          <Contracts.SetMintCfg />
-
-          <Contracts.SetPledgeReqire />
-
-          <Contracts.SetPledgeReturn />
-
-          <Contracts.UpdateMintCfg />
 
           <Contracts.WithdrawPledge />
 

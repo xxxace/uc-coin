@@ -12,9 +12,11 @@ import * as mainAbi from '@/config/mainAbi'
 import { useState } from 'react'
 import { BigNumber, utils } from 'ethers'
 import styles from '@/styles/test.module.css';
+import { ContractParams, TokenX, PledgeReturn, ERCType, ProfitType } from '../lib/types';
 
 const contract_address = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
 console.log(contract_address)
+
 export function GetPledgeInfo() {
 
   const { address, isConnecting, isDisconnected, connector } = useAccount()
@@ -227,636 +229,204 @@ export function GetPledgeReqire() {
   );
 }
 
-export function UpdateMintCfg() {
 
-  // "aDropERC": "Token类型(0=>ERC20,1,ERC721,2,ERC1155)",
-  // "aDropToken": "空投Token",
-  // "aDropValue": "空投数量",
-  // "adAsProfit": "是否将空投token作为质押收益Token",
-  // "erc": "Token类型(0=>ERC20,1,ERC721,2,ERC1155)",
-  // "nLevel": "点票级才有等级，level0-2三级",
-  // "nType": "nft类型，普通，正常，点票",
-  // "payERC": "Token类型(0=>ERC20,1,ERC721,2,ERC1155)",
-  // "payToken": "支付铸造的token, 0表示ETH",
-  // "payValue": "支付数量",
-  // "pledgeDays": "质押周期",
-  // "tokenAddr": "nft支付地址"
+export function SetPledgeCfg() {
+  const [pledgeToken, setPledgeToken] = useState<TokenX>({
+    token: "",
+    tokenId: BigNumber.from(0),
+    ercType: BigNumber.from(0),
+    amount: BigNumber.from(0),
+  });
 
+  const [payToken, setPayToken] = useState<TokenX>({
+    token: "",
+    tokenId: BigNumber.from(0),
+    ercType: BigNumber.from(0),
+    amount: BigNumber.from(0),
+  });
 
-  // 使用useState钩子来管理输入框的状态
-  const [tokenAddr, setTokenAddr] = useState('');
-  const [erc, setErc] = useState(0);
-  const [nType, setNType] = useState(0);
-  const [nLevel, setNLevel] = useState(0);
-  const [pledgeDays, setPledgeDays] = useState(0);
-  const [payToken, setPayToken] = useState('');
-  const [payERC, setPayERC] = useState(0);
-  const [payValue, setPayValue] = useState(0);
-  const [aDropToken, setADropToken] = useState('');
-  const [aDropERC, setADropERC] = useState(0);
-  const [aDropValue, setADropValue] = useState(0);
-  const [adAsProfit, setAdAsProfit] = useState(false);
+  const [profitToken, setProfitToken] = useState<TokenX>({
+    token: "",
+    tokenId: BigNumber.from(0),
+    ercType: BigNumber.from(0),
+    amount: BigNumber.from(0),
+  });
 
+  const [pledgeReturn, setPledgeReturn] = useState<PledgeReturn>({
+    profitType: BigNumber.from(0),
+    isDayRelease: false,
+    profit: BigNumber.from(0),
+  });
 
-  const { config } = usePrepareContractWrite({
-    address: contract_address,
-    abi: [
-      {
-        inputs: [
-          {
-            internalType: 'address',
-            name: 'tokenAddr',
-            type: 'address'
-          },
-          {
-            internalType: 'enum Store.ERCType',
-            name: 'erc',
-            type: 'uint8'
-          },
-          {
-            internalType: 'enum Store.TokenType',
-            name: 'nType',
-            type: 'uint8'
-          },
-          {
-            internalType: 'enum Store.TokenLevel',
-            name: 'nLevel',
-            type: 'uint8'
-          },
-          {
-            internalType: 'uint16',
-            name: 'pledgeDays',
-            type: 'uint16'
-          },
-          {
-            internalType: 'address',
-            name: 'payToken',
-            type: 'address'
-          },
-          {
-            internalType: 'enum Store.ERCType',
-            name: 'payERC',
-            type: 'uint8'
-          },
-          {
-            internalType: 'uint256',
-            name: 'payValue',
-            type: 'uint256'
-          },
-          {
-            internalType: 'address',
-            name: 'aDropToken',
-            type: 'address'
-          },
-          {
-            internalType: 'enum Store.ERCType',
-            name: 'aDropERC',
-            type: 'uint8'
-          },
-          {
-            internalType: 'uint256',
-            name: 'aDropValue',
-            type: 'uint256'
-          },
-          {
-            internalType: 'bool',
-            name: 'adAsProfit',
-            type: 'bool'
-          }
-        ],
-        stateMutability: 'nonpayable',
-        type: 'function',
-        name: 'updateMintCfg',
-        outputs: [],
-      },
-    ] as const,
-    functionName: 'updateMintCfg',
-    args: [tokenAddr as `0x${string}`, erc, nType, nLevel, pledgeDays, payToken as `0x${string}`, payERC, BigNumber.from(payValue ? utils.parseEther(payValue.toString()) : '0'), aDropToken as `0x${string}`, aDropERC, BigNumber.from(aDropValue ? utils.parseEther(aDropValue.toString()) : '0'), adAsProfit]
-    // args: ['0x77294988Be744e15E4B2Efa0442B48B1624C7911', 1, 2, 1, 1, '0x4977f63b15984e8a98228Df7876a50080aca1143', 0, BigNumber.from(1), '0x1704b99a38f8381B7A1Cd2f93fc11346a28c8e8D', 0, BigNumber.from(2), false]
-  })
-
-  // console.log('config : ' + `0x${'0x77294988Be744e15E4B2Efa0442B48B1624C7911'}`);
-  const { data, write } = useContractWrite(config)
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  })
-  return (
-    <div className={styles.borderedDiv} >
-      <p>
-        <span className={styles.boldText}>配置铸造信息</span>。
-      </p>
-      <label htmlFor="tokenAddr">nft支付地址:</label>
-      <input
-        id="tokenAddr"
-        type="text"
-        value={tokenAddr}
-        onChange={(e) => setTokenAddr(e.target.value)}
-      />
-
-      <label htmlFor="erc">Token类型(0={'>'}ERC20,1,ERC721,2,ERC1155):</label>
-      <input
-        id="erc"
-        type="number"
-        value={erc}
-        onChange={(e) => setErc(Number(e.target.value))}
-      />
-
-      <label htmlFor="nType">nft类型，普通，正常，点票:</label>
-      <input
-        id="nType"
-        type="number"
-        value={nType}
-        onChange={(e) => setNType(Number(e.target.value))}
-      />
-
-      <label htmlFor="nLevel">点票级才有等级，level0-2三级:</label>
-      <input
-        id="nLevel"
-        type="number"
-        value={nLevel}
-        onChange={(e) => setNLevel(Number(e.target.value))}
-      />
-
-      <label htmlFor="pledgeDays">质押周期:</label>
-      <input
-        id="pledgeDays"
-        type="number"
-        value={pledgeDays}
-        onChange={(e) => setPledgeDays(Number(e.target.value))}
-      />
-
-      <label htmlFor="payToken">支付铸造的token, 0表示ETH:</label>
-      <input
-        id="payToken"
-        type="text"
-        value={payToken}
-        onChange={(e) => setPayToken(e.target.value)}
-      />
-
-      <label htmlFor="payERC">Token类型(0={'>'}ERC20,1,ERC721,2,ERC1155):</label>
-      <input
-        id="payERC"
-        type="number"
-        value={payERC}
-        onChange={(e) => setPayERC(Number(e.target.value))}
-      />
-
-      <label htmlFor="payValue">支付数量:</label>
-      <input
-        id="payValue"
-        type="number"
-        value={payValue}
-        onChange={(e) => setPayValue(Number(e.target.value))}
-      />
-
-      <label htmlFor="aDropToken">空投Token:</label>
-      <input
-        id="aDropToken"
-        type="text"
-        value={aDropToken}
-        onChange={(e) => setADropToken(e.target.value)}
-      />
-
-      <label htmlFor="aDropERC">Token类型(0={'>'}ERC20,1,ERC721,2,ERC1155):</label>
-      <input
-        id="aDropERC"
-        type="number"
-        value={aDropERC}
-        onChange={(e) => setADropERC(Number(e.target.value))}
-      />
-
-      <label htmlFor="aDropValue">空投数量:</label>
-      <input
-        id="aDropValue"
-        type="number"
-        value={aDropValue}
-        onChange={(e) => setADropValue(Number(e.target.value))}
-      />
-
-      <label htmlFor="adAsProfit">是否将空投token作为质押收益Token:</label>
-      <input
-        id="adAsProfit"
-        type="checkbox"
-        checked={adAsProfit}
-        onChange={(e) => setAdAsProfit(e.target.checked)}
-      />
+  const [pledgeDays, setPledgeDays] = useState<BigNumber>(BigNumber.from(0));
 
 
-      <div>
-        {/* <button disabled={!write || isLoading} onClick={() => write && write()}> */}
-        <button disabled={isLoading} onClick={() => write && write()}>
-          {isLoading ? 'Loading...' : 'UpdateMintCfg'}
-        </button>
-        {isSuccess && (
-          <div>
-            Successfully UpdateMintCfg!
-            <div>
-              <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-            </div>
-          </div>
-        )}
-      </div>
 
-    </div>
-  )
-}
-
-export function SetMintCfg() {
-
-  // "aDropERC": "Token类型(0=>ERC20,1,ERC721,2,ERC1155)",
-  // "aDropToken": "空投Token",
-  // "aDropValue": "空投数量",
-  // "adAsProfit": "是否将空投token作为质押收益Token",
-  // "erc": "Token类型(0=>ERC20,1,ERC721,2,ERC1155)",
-  // "nLevel": "点票级才有等级，level0-2三级",
-  // "nType": "nft类型，普通，正常，点票",
-  // "payERC": "Token类型(0=>ERC20,1,ERC721,2,ERC1155)",
-  // "payToken": "支付铸造的token, 0表示ETH",
-  // "payValue": "支付数量",
-  // "pledgeDays": "质押周期",
-  // "tokenAddr": "nft支付地址"
+  const params: ContractParams = {
+    pledgeToken: {
+      token: pledgeToken.token,
+      tokenId: pledgeToken.tokenId,
+      ercType: pledgeToken.ercType,
+      amount: utils.parseEther(pledgeToken ? pledgeToken.amount.toString() : '0'),
+    },
+    payToken: {
+      token: payToken.token,
+      tokenId: payToken.tokenId,
+      ercType: payToken.ercType,
+      amount: utils.parseEther(payToken ? payToken.amount.toString() : '0'),
+    },
+    profitToken: {
+      token: profitToken.token,
+      tokenId: profitToken.tokenId,
+      ercType: profitToken.ercType,
+      amount: utils.parseEther(profitToken ? profitToken.amount.toString() : '0'),
+    },
+    pledgeReturn: {
+      profitType: pledgeReturn.profitType,
+      isDayRelease: pledgeReturn.isDayRelease,
+      profit: utils.parseEther(pledgeReturn ? pledgeReturn.profit.toString() : '0'),
+    },
+    pledgeDays: pledgeDays,
+  };
 
 
-  const { address, isConnecting, isDisconnected } = useAccount()
 
-  // const [tokenAddr, setTokenAddr] = useState('');
-  const [nType, setNType] = useState(0);
-  const [nLevel, setNLevel] = useState(0);
-  const [payToken, setPayToken] = useState('');
-  const [payValue, setPayValue] = useState(0);
-  const [aDropToken, setADropToken] = useState('');
-  const [aDropValue, setADropValue] = useState(0);
+
+  // const  pledgeToken:TokenX = {
+  //   token: tokenAddress, // 示例地址，请替换为实际地址
+  //   tokenId: BigNumber.from(tokenId ? tokenId : '0'), // 示例tokenId，请替换为实际值
+  //   ercType: parseInt(ercType, 10), // 示例ERCType，请根据实际情况替换
+  //   amount: BigNumber.from(tokenAmount ? utils.parseEther(tokenAmount.toString()) : '0') // 示例数量，请替换为实际值，这里是1个单位，因为ethers.js使用wei单位
+  // };
+
+
+
 
   const { config } = usePrepareContractWrite({
     address: contract_address,
     abi: [{
       inputs: [
         {
-          internalType: 'address',
-          name: 'tokenAddr',
-          type: 'address'
+          internalType: "struct Store.TokenX",
+          name: "pledgeToken",
+          type: "tuple",
+          components: [
+            {
+              internalType: "address",
+              name: "token",
+              type: "address"
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256"
+            },
+            {
+              internalType: "enum Store.ERCType",
+              name: "ercType",
+              type: "uint8"
+            },
+            {
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256"
+            }
+          ]
         },
         {
-          internalType: 'enum Store.TokenType',
-          name: 'nType',
-          type: 'uint8'
+          internalType: "struct Store.TokenX",
+          name: "payToken",
+          type: "tuple",
+          components: [
+            {
+              internalType: "address",
+              name: "token",
+              type: "address"
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256"
+            },
+            {
+              internalType: "enum Store.ERCType",
+              name: "ercType",
+              type: "uint8"
+            },
+            {
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256"
+            }
+          ]
         },
         {
-          internalType: 'enum Store.TokenLevel',
-          name: 'nLevel',
-          type: 'uint8'
-        },
-        {
-          internalType: 'address',
-          name: 'payToken',
-          type: 'address'
-        },
-        {
-          internalType: 'uint256',
-          name: 'payValue',
-          type: 'uint256'
-        },
-        {
-          internalType: 'address',
-          name: 'aDropToken',
-          type: 'address'
-        },
-        {
-          internalType: 'uint256',
-          name: 'aDropValue',
-          type: 'uint256'
-        }
-      ],
-      name: 'setMintCfg',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function'
-    }] as const,
-    functionName: 'setMintCfg',
-    args: [address as `0x${string}`, nType, nLevel, payToken as `0x${string}`, BigNumber.from(payValue ? utils.parseEther(payValue.toString()) : '0'), aDropToken as `0x${string}`, BigNumber.from(aDropValue ? utils.parseEther(aDropValue.toString()) : '0')]
-
-  })
-
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
-
-
-  return (
-    <div className={styles.borderedDiv} >
-      <p>
-        <span className={styles.boldText}>配置铸造信息，参数看updateMintCfg方法</span>。
-      </p>
-
-      <label htmlFor="nType">nft类型，普通，正常，点票:</label>
-      <input
-        id="nType"
-        type="number"
-        value={nType}
-        onChange={(e) => setNType(Number(e.target.value))}
-      />
-
-      <label htmlFor="nLevel">点票级才有等级，level0-2三级:</label>
-      <input
-        id="nLevel"
-        type="number"
-        value={nLevel}
-        onChange={(e) => setNLevel(Number(e.target.value))}
-      />
-
-      <label htmlFor="payToken">支付铸造的token, 0表示ETH:</label>
-      <input
-        id="payToken"
-        type="text"
-        value={payToken}
-        onChange={(e) => setPayToken(e.target.value)}
-      />
-
-      <label htmlFor="payValue">支付数量:</label>
-      <input
-        id="payValue"
-        type="number"
-        value={payValue}
-        onChange={(e) => setPayValue(Number(e.target.value))}
-      />
-
-      <label htmlFor="aDropToken">空投Token:</label>
-      <input
-        id="aDropToken"
-        type="text"
-        value={aDropToken}
-        onChange={(e) => setADropToken(e.target.value)}
-      />
-
-      <label htmlFor="aDropValue">空投数量:</label>
-      <input
-        id="aDropValue"
-        type="number"
-        value={aDropValue}
-        onChange={(e) => setADropValue(Number(e.target.value))}
-      />
-
-      <button disabled={!write || isLoading} onClick={() => write && write()}>
-        {isLoading ? 'Minting...' : 'SetMintCfg'}
-      </button>
-      {isSuccess && (
-        <div>
-          Successfully SetMintCfg!
-          <div>
-            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-export function SetPledgeReqire() {
-
-  // "pledgeTokenErc": "erc20/721/1155",
-  // "plgToken": "质押token",
-  // "profitToken": "收益Token",
-  // "profitTokenErc": "erc20/721/1155"
-
-  const [plgToken, setPlgToken] = useState('');
-  const [pledgeTokenErc, setPledgeTokenErc] = useState(0);
-  const [profitToken, setProfitToken] = useState('');
-  const [profitTokenErc, setProfitTokenErc] = useState(0);
-
-  const { config } = usePrepareContractWrite({
-    address: contract_address,
-    abi: [{
-      inputs: [
-        {
-          internalType: "address",
-          name: "plgToken",
-          type: "address"
-        },
-        {
-          internalType: "enum Store.ERCType",
-          name: "pledgeTokenErc",
-          type: "uint8"
-        },
-        {
-          internalType: "address",
+          internalType: "struct Store.TokenX",
           name: "profitToken",
-          type: "address"
+          type: "tuple",
+          components: [
+            {
+              internalType: "address",
+              name: "token",
+              type: "address"
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256"
+            },
+            {
+              internalType: "enum Store.ERCType",
+              name: "ercType",
+              type: "uint8"
+            },
+            {
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256"
+            }
+          ]
         },
         {
-          internalType: "enum Store.ERCType",
-          name: "profitTokenErc",
-          type: "uint8"
-        }
-      ],
-      name: "setPledgeReqire",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function"
-    }] as const,
-    functionName: 'setPledgeReqire',
-    args: [plgToken as `0x${string}`, pledgeTokenErc, profitToken as `0x${string}`, profitTokenErc]
-  })
-
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
-
-
-  return (
-    <div className={styles.borderedDiv} >
-      <p>
-        <span className={styles.boldText}>设置质押信息</span>。
-      </p>
-      <label htmlFor="plgToken">质押token:</label>
-      <input
-        type="text"
-        id="plgToken"
-        value={plgToken}
-        onChange={(e) => setPlgToken(e.target.value)}
-      />
-
-      <label htmlFor="pledgeTokenErc">Pledge Token ERC (erc20/721/1155):</label>
-      <input
-        type="number"
-        id="pledgeTokenErc"
-        value={pledgeTokenErc}
-        onChange={(e) => setPledgeTokenErc(parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="profitToken">收益Token:</label>
-      <input
-        type="text"
-        id="profitToken"
-        value={profitToken}
-        onChange={(e) => setProfitToken(e.target.value)}
-      />
-
-      <label htmlFor="profitTokenErc">Profit Token ERC (erc20/721/1155):</label>
-      <input
-        type="number"
-        id="profitTokenErc"
-        value={profitTokenErc}
-        onChange={(e) => setProfitTokenErc(parseInt(e.target.value, 10))}
-      />
-
-      <button disabled={!write || isLoading} onClick={() => write && write()}>
-        {isLoading ? 'Minting...' : 'SetPledgeReqire'}
-      </button>
-      {isSuccess && (
-        <div>
-          Successfully SetPledgeReqire!
-          <div>
-            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-          </div>
-        </div>
-      )}
-
-    </div>
-  )
-
-}
-
-
-export function SetPledgeReturn() {
-
-  const [tokenAddr, setTokenAddr] = useState('');
-  const [pledgeDays, setPledgeDays] = useState(0);
-  const [pType, setPType] = useState(0);
-  const [profit, setProfit] = useState(0);
-
-
-  const { config } = usePrepareContractWrite({
-    address: contract_address,
-    abi: [{
-      inputs: [
-        {
-          internalType: "address",
-          name: "tokenAddr",
-          type: "address"
+          internalType: "struct Store.PledgeReturn",
+          name: "pledgeReturn",
+          type: "tuple",
+          components: [
+            {
+              internalType: "enum Store.ProfitType",
+              name: "profitType",
+              type: "uint8"
+            },
+            {
+              internalType: "bool",
+              name: "isDayRelease",
+              type: "bool"
+            },
+            {
+              internalType: "uint256",
+              name: "profit",
+              type: "uint256"
+            }
+          ]
         },
         {
-          internalType: "uint16",
+          internalType: "uint32",
           name: "pledgeDays",
-          type: "uint16"
-        },
-        {
-          internalType: "enum Store.ProfitType",
-          name: "pType",
-          type: "uint8"
-        },
-        {
-          internalType: "uint256",
-          name: "profit",
-          type: "uint256"
+          type: "uint32"
         }
       ],
-      name: "setPledgeReturn",
-      outputs: [],
       stateMutability: "nonpayable",
-      type: "function"
-    }] as const,
-    functionName: 'setPledgeReturn',
-    args: [tokenAddr as `0x${string}`, pledgeDays, pType, BigNumber.from(profit ? utils.parseEther(profit.toString()) : '0')]
-  })
-
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
-
-  return (
-    <div className={styles.borderedDiv} >
-      <p>
-        <span className={styles.boldText}>返回指定token在指定质押期内的收益情况(仅管理员操作)</span>。
-      </p>
-      <label htmlFor="tokenAddr">Token Address:</label>
-      <input
-        id="tokenAddr"
-        name="tokenAddr"
-        type="text"
-        value={tokenAddr}
-        onChange={(e) => setTokenAddr(e.target.value)}
-      />
-
-      <label htmlFor="pledgeDays">Pledge Days:</label>
-      <input
-        id="pledgeDays"
-        name="pledgeDays"
-        type="number"
-        value={pledgeDays}
-        onChange={(e) => setPledgeDays(parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="pType">P Type:</label>
-      <input
-        id="pType"
-        name="pType"
-        type="number"
-        value={pType}
-        onChange={(e) => setPType(parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="profit">Profit:</label>
-      <input
-        id="profit"
-        name="profit"
-        type="number"
-        value={profit}
-        onChange={(e) => setProfit(parseInt(e.target.value, 10))}
-      />
-      <button disabled={!write || isLoading} onClick={() => write && write()}>
-        {isLoading ? 'Minting...' : 'SetPledgeReturn'}
-      </button>
-      {isSuccess && (
-        <div>
-          Successfully SetPledgeReturn!
-          <div>
-            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-export function Mint() {
-
-  // "details": "铸造NFT(本合约必须先成为NFT合约miner)",
-  // "params": {
-  //   "cid": "nft cid",
-  //   "tokenAddr": "合约地址",
-  //   "tokenAmount": "数量",
-  //   "tokenId": "tokenId"
-  // }
-  const [tokenAddr, setTokenAddr] = useState('');
-  const [tokenId, setTokenId] = useState(0);
-  const [tokenAmount, setTokenAmount] = useState(0);
-  const [cid, setCid] = useState('');
-
-  const { config } = usePrepareContractWrite({
-    address: contract_address,
-    abi: [{
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'tokenAddr',
-          type: 'address'
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256'
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenAmount',
-          type: 'uint256'
-        },
-        {
-          internalType: 'string',
-          name: 'cid',
-          type: 'string'
-        }
-      ],
-      stateMutability: 'payable',
-      type: 'function',
-      name: 'mint'
+      type: "function",
+      name: "setPledgeCfg"
     }],
-    functionName: 'mint',
-    args: [tokenAddr, tokenId, tokenAmount, cid],
+    functionName: 'mintPledge',
+    args: [
+      params.pledgeToken,
+      params.payToken,
+      params.profitToken,
+      params.pledgeReturn,
+      params.pledgeDays,
+    ],
   });
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
@@ -864,41 +434,180 @@ export function Mint() {
   return (
     <div className={styles.borderedDiv} >
       <p>
-        <span className={styles.boldText}>铸造NFT(本合约必须先成为NFT合约miner)</span>。
+        <span className={styles.boldText}>铸造并质押token(本合约必须先成为NFT合约miner)</span>。
       </p>
-      <label htmlFor="cid">NFT CID:</label>
-      <input
-        type="text"
-        id="cid"
-        value={cid}
-        onChange={(e) => setCid(e.target.value)}
-      />
-
-      <label htmlFor="tokenAddr">合约地址:</label>
-      <input
-        type="text"
-        id="tokenAddr"
-        value={tokenAddr}
-        onChange={(e) => setTokenAddr(e.target.value)}
-      />
-
-      <label htmlFor="tokenAmount">数量:</label>
-      <input
-        type="number"
-        id="tokenAmount"
-        value={tokenAmount}
-        onChange={(e) => setTokenAmount(parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="tokenId">Token ID:</label>
-      <input
-        type="number"
-        id="tokenId"
-        value={tokenId}
-        onChange={(e) => setTokenId(parseInt(e.target.value, 10))}
-      />
+      <div className={styles.borderedDiv}>
+        <h3>承诺代币 (Pledge Token)</h3>
+        <label htmlFor="pledgeTokenAddress">Pledge Token Address:</label>
+        <input
+          id="pledgeTokenAddress"
+          type="text"
+          value={pledgeToken.token}
+          onChange={(e) =>
+            setPledgeToken({ ...pledgeToken, token: e.target.value })
+          }
+        />
+        <br />
+        <label htmlFor="pledgeTokenId">Pledge Token ID:</label>
+        <input
+          id="pledgeTokenId"
+          type="number"
+          value={pledgeToken.tokenId.toString()}
+          onChange={(e) =>
+            setPledgeToken({ ...pledgeToken, tokenId: BigNumber.from(e.target.value) })
+          }
+        />
+        <br />
+        <label htmlFor="pledgeTokenERCType">Pledge Token ERC Type:</label>
+        <select
+          id="pledgeTokenERCType"
+          value={pledgeToken.ercType.toString()}
+          onChange={(e) =>
+            setPledgeToken({ ...pledgeToken, ercType: BigNumber.from(e.target.value) })
+          }
+        >
+          <option value={ERCType.ERC20}>ERC20</option>
+          <option value={ERCType.ERC721}>ERC721</option>
+          <option value={ERCType.ERC1155}>ERC1155</option>
+        </select>
+        <br />
+        <label htmlFor="pledgeTokenAmount">Pledge Token Amount (Ether):</label>
+        <input
+          id="pledgeTokenAmount"
+          type="text"
+          value={pledgeToken.amount.toString()}
+          onChange={(e) =>
+            setPledgeToken({ ...pledgeToken, amount: BigNumber.from(e.target.value) })
+          }
+        />
+        <br />
+      </div>
+      <div className={styles.borderedDiv}>
+        <h3>支付代币 (Pay Token)</h3>
+        <label htmlFor="payTokenAddress">Pay Token Address:</label>
+        <input
+          id="payTokenAddress"
+          type="text"
+          value={payToken.token}
+          onChange={(e) => setPayToken({ ...payToken, token: e.target.value })}
+        />
+        <br />
+        <label htmlFor="payTokenId">Pay Token ID:</label>
+        <input
+          id="payTokenId"
+          type="number"
+          value={payToken.tokenId.toString()}
+          onChange={(e) => setPayToken({ ...payToken, tokenId: BigNumber.from(e.target.value) })}
+        />
+        <br />
+        <label htmlFor="payTokenERCType">Pay Token ERC Type:</label>
+        <select
+          id="payTokenERCType"
+          value={payToken.ercType.toString()}
+          onChange={(e) => setPayToken({ ...payToken, ercType: BigNumber.from(e.target.value) })}
+        >
+          <option value={ERCType.ERC20}>ERC20</option>
+          <option value={ERCType.ERC721}>ERC721</option>
+          <option value={ERCType.ERC1155}>ERC1155</option>
+        </select>
+        <br />
+        <label htmlFor="payTokenAmount">Pay Token Amount (Ether):</label>
+        <input
+          id="payTokenAmount"
+          type="text"
+          value={payToken.amount.toString()}
+          onChange={(e) => setPayToken({ ...payToken, amount: BigNumber.from(e.target.value) })}
+        />
+        <br />
+      </div>
+      <div className={styles.borderedDiv}>
+        <h3>利润代币 (Profit Token)</h3>
+        <label htmlFor="profitTokenAddress">Profit Token Address:</label>
+        <input
+          id="profitTokenAddress"
+          type="text"
+          value={profitToken.token}
+          onChange={(e) => setProfitToken({ ...profitToken, token: e.target.value })}
+        />
+        <br />
+        <label htmlFor="profitTokenId">Profit Token ID:</label>
+        <input
+          id="profitTokenId"
+          type="number"
+          value={profitToken.tokenId.toString()}
+          onChange={(e) => setProfitToken({ ...profitToken, tokenId: BigNumber.from(e.target.value) })}
+        />
+        <br />
+        <label htmlFor="profitTokenERCType">Profit Token ERC Type:</label>
+        <select
+          id="profitTokenERCType"
+          value={profitToken.ercType.toString()}
+          onChange={(e) => setProfitToken({ ...profitToken, ercType: BigNumber.from(e.target.value) })}
+        >
+          <option value={ERCType.ERC20}>ERC20</option>
+          <option value={ERCType.ERC721}>ERC721</option>
+          <option value={ERCType.ERC1155}>ERC1155</option>
+        </select>
+        <br />
+        <label htmlFor="profitTokenAmount">Profit Token Amount (Ether):</label>
+        <input
+          id="profitTokenAmount"
+          type="text"
+          value={profitToken.amount.toString()}
+          onChange={(e) => setProfitToken({ ...profitToken, amount: BigNumber.from(e.target.value) })}
+        />
+        <br />
+      </div>
+      <div>
+        <h3>承诺回报 (Pledge Return)</h3>
+        <label htmlFor="pledgeReturnProfitType">Pledge Return Profit Type:</label>
+        <select
+          id="pledgeReturnProfitType"
+          value={pledgeReturn.profitType.toString()}
+          onChange={(e) =>
+            setPledgeReturn({ ...pledgeReturn, profitType: BigNumber.from(e.target.value) })
+          }
+        >
+          <option value={ProfitType.Fixed}>Profit Type A</option>
+          <option value={ProfitType.Floating}>Profit Type B</option>
+        </select>
+        <br />
+        <label htmlFor="pledgeReturnIsDayRelease">
+          Pledge Return Is Day Release:
+        </label>
+        <input
+          id="pledgeReturnIsDayRelease"
+          type="checkbox"
+          checked={pledgeReturn.isDayRelease}
+          onChange={(e) =>
+            setPledgeReturn({ ...pledgeReturn, isDayRelease: e.target.checked })
+          }
+        />
+        <br />
+        <label htmlFor="pledgeReturnProfit">Pledge Return Profit (Ether):</label>
+        <input
+          id="pledgeReturnProfit"
+          type="text"
+          value={pledgeReturn.profit.toString()}
+          onChange={(e) =>
+            setPledgeReturn({ ...pledgeReturn, profit: BigNumber.from(e.target.value) })
+          }
+        />
+        <br />
+      </div>
+      <div>
+        <h3>承诺天数 (Pledge Days)</h3>
+        <label htmlFor="pledgeDays">Pledge Days:</label>
+        <input
+          id="pledgeDays"
+          type="number"
+          value={pledgeDays.toString()}
+          onChange={(e) => setPledgeDays(BigNumber.from(e.target.value))}
+        />
+        <br />
+      </div>
       <button disabled={!write || isLoading} onClick={() => write && write()}>
-        {isLoading ? 'Minting...' : 'Mint'}
+        {isLoading ? 'Minting...' : 'MintPledge'}
       </button>
       {isSuccess && (
         <div>
@@ -911,6 +620,15 @@ export function Mint() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
 
 export function MintPledge() {
 
@@ -1021,98 +739,7 @@ export function MintPledge() {
 }
 
 
-export function PledgeToken() {
-  const [tokenAddr, setTokenAddr] = useState('');
-  const [tokenId, setTokenId] = useState(0);
-  const [tokenAmount, setTokenAmount] = useState(0);
-  const [pledgeDays, setPledgeDays] = useState(0);
 
-  const { config } = usePrepareContractWrite({
-    address: contract_address,
-    abi: [{
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'tokenAddr',
-          type: 'address'
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenId',
-          type: 'uint256'
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokenAmount',
-          type: 'uint256'
-        },
-        {
-          internalType: 'uint16',
-          name: 'pledgeDays',
-          type: 'uint16'
-        }
-      ],
-      name: 'pledgeToken',
-      outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function'
-    }] as const,
-    functionName: 'pledgeToken',
-    args: [tokenAddr as `0x${string}`, BigNumber.from(tokenId), BigNumber.from(tokenAmount ? utils.parseEther(tokenAmount.toString()) : '0'), pledgeDays]
-  });
-
-  const { data, isLoading, isSuccess, write } = useContractWrite(config);
-
-  return (
-    <div className={styles.borderedDiv} >
-      <p>
-        <span className={styles.boldText}>手动质押</span>。
-      </p>
-      <label htmlFor="pledgeDays">质押天数，支持7/30/90/180:</label>
-      <input
-        type="number"
-        id="pledgeDays"
-        value={pledgeDays}
-        onChange={(e) => setPledgeDays(parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="tokenAddr">质押Token地址:</label>
-      <input
-        type="text"
-        id="tokenAddr"
-        value={tokenAddr}
-        onChange={(e) => setTokenAddr(e.target.value)}
-      />
-
-      <label htmlFor="tokenAmount">质押数量 721 为1:</label>
-      <input
-        type="number"
-        id="tokenAmount"
-        value={tokenAmount}
-        onChange={(e) => setTokenAmount(parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="tokenId">质押TokenId,ERC20 为0:</label>
-      <input
-        type="number"
-        id="tokenId"
-        value={tokenId}
-        onChange={(e) => setTokenId(parseInt(e.target.value, 10))}
-      />
-      <button disabled={!write || isLoading} onClick={() => write && write()}>
-        {isLoading ? 'PledgeToken...' : 'PledgeToken'}
-      </button>
-      {isSuccess && (
-        <div>
-          Successfully !
-          <div>
-            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export function WithdrawProfit() {
 

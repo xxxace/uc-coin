@@ -1,182 +1,14 @@
-export const updateMintCfgAbi = [{
-  inputs: [
-    { 
-      internalType: 'address', 
-      name: 'tokenAddr', 
-      type: 'address' },
-    { 
-      internalType: 'enum Store.ERCType', 
-      name: 'erc', 
-      type: 'uint8' },
-    { 
-      internalType: 'enum Store.TokenType', 
-      name: 'nType', 
-      type: 'uint8' },
-    { 
-      internalType: 'enum Store.TokenLevel', 
-      name: 'nLevel', 
-      type: 'uint8' },
-    { 
-      internalType: 'uint16', 
-      name: 'pledgeDays', 
-      type: 'uint16' },
-    { 
-      internalType: 'address', 
-      name: 'payToken', 
-      type: 'address' },
-    { 
-      internalType: 'enum Store.ERCType', 
-      name: 'payERC', 
-      type: 'uint8' },
-    { 
-      internalType: 'uint256', 
-      name: 'payValue', 
-      type: 'uint256' },
-    { 
-      internalType: 'address', 
-      name: 'aDropToken', 
-      type: 'address' },
-    { 
-      internalType: 'enum Store.ERCType', 
-      name: 'aDropERC', 
-      type: 'uint8' },
-    { 
-      internalType: 'uint256', 
-      name: 'aDropValue', 
-      type: 'uint256' },
-    { 
-      internalType: 'bool', 
-      name: 'adAsProfit', 
-      type: 'bool' }
-  ],
-  stateMutability: 'nonpayable',
-  type: 'function',
-  name: 'updateMintCfg'
-}];
+export const setPledgeCfgAbi = [
+  
+]
 
-export const setMintCfgAbi = [{
-  inputs: [
-    { 
-      internalType: 'address', 
-      name: 'tokenAddr', 
-      type: 'address' 
-  },
-    { 
-      internalType: 'enum Store.TokenType', 
-      name: 'nType', 
-      type: 'uint8' },
-    { 
-      internalType: 'enum Store.TokenLevel', 
-      name: 'nLevel', 
-      type: 'uint8' },
-    { 
-      internalType: 'address', 
-      name: 'payToken', 
-      type: 'address' },
-    { 
-      internalType: 'uint256', 
-      name: 'payValue', 
-      type: 'uint256' },
-    { 
-      internalType: 'address', 
-      name: 'aDropToken', 
-      type: 'address' },
-    { 
-      internalType: 'uint256', 
-      name: 'aDropValue', 
-      type: 'uint256' }
-  ],
-  name: 'setMintCfg',
-  outputs: [],
-  stateMutability: 'nonpayable',
-  type: 'function'
-}];
 
-export const setPledgeReqireAbi = [{
-  inputs: [
-    {
-      internalType: "address",
-      name: "plgToken",
-      type: "address"
-    },
-    {
-      internalType: "enum Store.ERCType",
-      name: "pledgeTokenErc",
-      type: "uint8"
-    },
-    {
-      internalType: "address",
-      name: "profitToken",
-      type: "address"
-    },
-    {
-      internalType: "enum Store.ERCType",
-      name: "profitTokenErc",
-      type: "uint8"
-    }
-  ],
-  name: "setPledgeReqire",
-  outputs: [],
-  stateMutability: "nonpayable",
-  type: "function"
-}];
 
-export const setPledgeReturnAbi = [{
-  inputs: [
-    {
-      internalType: "address",
-      name: "tokenAddr",
-      type: "address"
-    },
-    {
-      internalType: "uint16",
-      name: "pledgeDays",
-      type: "uint16"
-    },
-    {
-      internalType: "enum Store.ProfitType",
-      name: "pType",
-      type: "uint8"
-    },
-    {
-      internalType: "uint256",
-      name: "profit",
-      type: "uint256"
-    }
-  ],
-  name: "setPledgeReturn",
-  outputs: [],
-  stateMutability: "nonpayable",
-  type: "function"
-}];
 
-export const mintAbi = [{
-  inputs: [
-    {
-      internalType: "address",
-      name: "tokenAddr",
-      type: "address"
-    },
-    {
-      internalType: "uint256",
-      name: "tokenId",
-      type: "uint256"
-    },
-    {
-      internalType: "uint256",
-      name: "tokenAmount",
-      type: "uint256"
-    },
-    {
-      internalType: "string",
-      name: "cid",
-      type: "string"
-    }
-  ],
-  stateMutability: "payable",
-  type: "function",
-  name: "mint"
-}];
+
+
+
+
 
 export const mintPledgeAbi = [{
   inputs: [
@@ -212,34 +44,7 @@ export const mintPledgeAbi = [{
   type: "function"
 }];
 
-export const pledgeTokenAbi = [{
-  inputs: [
-    {
-      internalType: 'address',
-      name: 'tokenAddr',
-      type: 'address'
-    },
-    {
-      internalType: 'uint256',
-      name: 'tokenId',
-      type: 'uint256'
-    },
-    {
-      internalType: 'uint256',
-      name: 'tokenAmount',
-      type: 'uint256'
-    },
-    {
-      internalType: 'uint16',
-      name: 'pledgeDays',
-      type: 'uint16'
-    }
-  ],
-  name: 'pledgeToken',
-  outputs: [],
-  stateMutability: 'nonpayable',
-  type: 'function'
-}];
+
 
 
 export const withdrawProfitAbi = [{
