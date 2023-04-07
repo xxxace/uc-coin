@@ -24,21 +24,21 @@ function Test() {
 
           <Contracts.GetProfitToken />
 
-          <Contracts.Mint />
+          {/* <Contracts.Mint /> */}
 
           <Contracts.MintPledge />
 
           <Contracts.PledgeToken />
 
-          <Contracts.SetMintCfg />
+          {/* <Contracts.SetMintCfg /> */}
 
           <Contracts.SetPledgeCfg />
 
-          <Contracts.SetPledgeReqire />
+          {/* <Contracts.SetPledgeReqire /> */}
 
-          <Contracts.SetPledgeReturn />
+          {/* <Contracts.SetPledgeReturn /> */}
 
-          <Contracts.UpdateMintCfg />
+          {/* <Contracts.UpdateMintCfg /> */}
 
           <Contracts.WithdrawPledge />
 
