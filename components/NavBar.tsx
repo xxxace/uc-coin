@@ -45,7 +45,6 @@ export default function NavBar() {
             document.documentElement.classList.add('dark')
         }
         setIsDark(cache)
-        console.log(cache, isDark)
     }, [])
 
     return (
@@ -64,7 +63,7 @@ export default function NavBar() {
                                 {getNavList(router.pathname)}
                             </ul>
                             <div className="flex items-center ml-6 px-6">
-                                <div className="hidden md:block">
+                                <div className="hidden md:block"> 
                                     <Switch icon={renderIcon(isDark)} checked={isDark} onChange={switchTheme} />
                                 </div>
                                 <div className="ml-4">
