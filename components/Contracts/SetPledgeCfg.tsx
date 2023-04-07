@@ -133,21 +133,27 @@ export interface SetPledgeCfgProps {
 }
 
 function parseEther(source, key) {
+    let value = 0
+
     if (source) {
-        source[key] = BigNumber.from(utils.parseEther(source[key] || '0'))
+        value = source[key] || 0
     }
+
+    return BigNumber.from(utils.parseEther(value.toString()))
 }
 
 export function setPledgeCfg({ pledgeToken, payToken, profitToken, pledgeReturn, pledgeDays }: SetPledgeCfgProps) {
-    parseEther(pledgeToken, 'amount')
-    parseEther(payToken, 'amount')
-    parseEther(profitToken, 'amount')
-
     const { config } = usePrepareContractWrite({
         address: contract_address,
         abi: wagmigotchiABI,
         functionName: 'setPledgeCfg',
-        args: [pledgeToken, payToken, profitToken, pledgeReturn, pledgeDays]
+        args: [
+            { ...pledgeToken, amount: parseEther(pledgeToken, 'amount') },
+            { ...payToken, amount: parseEther(payToken, 'amount') },
+            { ...profitToken, amount: parseEther(profitToken, 'amount') },
+            pledgeReturn,
+            pledgeDays
+        ]
     })
 
     return useContractWrite(config)
