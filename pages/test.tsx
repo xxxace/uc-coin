@@ -43,6 +43,7 @@ function Test() {
           <Contracts.WithdrawPledge />
 
           <Contracts.WithdrawProfit />
+          <Contracts.FileUploader/>
         </>
       )}
     </div>

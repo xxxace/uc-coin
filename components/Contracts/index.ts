@@ -21,6 +21,8 @@ import UpdateMintCfg from "./UpdateMintCfg";
 import WithdrawPledge from "./WithdrawPledge";
 import WithdrawProfit from "./WithdrawProfit";
 
+import FileUploader from "../Ipfs/Uploader";
+
 export {
     // 获取质押相关数据
     GetPayToken,
@@ -46,5 +48,6 @@ export {
     UpdateMintCfg,
 
     WithdrawPledge,
-    WithdrawProfit
+    WithdrawProfit,
+    FileUploader
 }
