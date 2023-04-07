@@ -7,9 +7,14 @@ import Footer from '@/components/Footer'
 import { MDXProvider } from '@mdx-js/react'
 import { MDXComponents } from '@/config/MDXComponents';
 import { withRainbowKitProvider } from '@/config/rainbowkit'
+import { useEffect, useState } from 'react';
 
 function App({ Component, pageProps, router }: AppProps) {
-  const mdxClass = router.pathname.indexOf('/doc/') === 0 ? 'container relative md:max-w-3xl py-6 lg:py-10 mx-auto px-4' : ''
+  const [mdxClass, setMdxClass] = useState('')
+
+  useEffect(() => {
+    router.pathname.indexOf('/doc/') === 0 && setMdxClass('container relative md:max-w-3xl py-6 lg:py-10 mx-auto px-4')
+  }, [router.pathname])
 
   return (
     <MDXProvider components={MDXComponents}>
