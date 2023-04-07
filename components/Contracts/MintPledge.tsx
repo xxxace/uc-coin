@@ -98,6 +98,14 @@ export default function MintPledge() {
                 value={tokenId}
                 onChange={(e) => setTokenId(parseInt(e.target.value, 10))}
             />
+
+            <label htmlFor="tokenId">Pledge Days:</label>
+            <input
+                type="number"
+                id="pledgeDays"
+                value={pledgeDays}
+                onChange={(e) => setPledgeDays(parseInt(e.target.value, 10))}
+            />
             <button disabled={!write || isLoading} onClick={() => write && write()}>
                 {isLoading ? 'Minting...' : 'MintPledge'}
             </button>
