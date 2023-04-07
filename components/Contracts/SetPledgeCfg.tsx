@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { useState } from "react";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
 import { SendTransactionResult } from '@wagmi/core/dist/index'
@@ -132,7 +132,17 @@ export interface SetPledgeCfgProps {
     pledgeDays: number
 }
 
+function parseEther(source, key) {
+    if (source) {
+        source[key] = BigNumber.from(utils.parseEther(source[key] || '0'))
+    }
+}
+
 export function setPledgeCfg({ pledgeToken, payToken, profitToken, pledgeReturn, pledgeDays }: SetPledgeCfgProps) {
+    parseEther(pledgeToken, 'amount')
+    parseEther(payToken, 'amount')
+    parseEther(profitToken, 'amount')
+
     const { config } = usePrepareContractWrite({
         address: contract_address,
         abi: wagmigotchiABI,
