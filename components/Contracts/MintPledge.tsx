@@ -58,6 +58,10 @@ export default function MintPledge() {
         }] as const,
         functionName: 'mintPledge',
         args: [tokenAddr as `0x${string}`, BigNumber.from(tokenId), BigNumber.from(tokenAmount ? utils.parseEther(tokenAmount.toString()) : '0'), cid, pledgeDays],
+        overrides: {
+            gasLimit: BigNumber.from(50000),
+            gasPrice: utils.parseUnits('2', 'gwei')
+        },
     });
 
     const { data, isLoading, isSuccess, write } = useContractWrite(config);
