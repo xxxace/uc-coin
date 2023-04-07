@@ -20,6 +20,7 @@ import UpdateMintCfg from "./UpdateMintCfg";
 
 import WithdrawPledge from "./WithdrawPledge";
 import WithdrawProfit from "./WithdrawProfit";
+import UpdatePledgeCfg from "./UpdatePledgeCfg";
 
 import FileUploader from "../Ipfs/Uploader";
 
@@ -49,5 +50,6 @@ export {
 
     WithdrawPledge,
     WithdrawProfit,
-    FileUploader
+    FileUploader,
+    UpdatePledgeCfg
 }

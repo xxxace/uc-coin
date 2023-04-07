@@ -44,6 +44,7 @@ function Test() {
 
           <Contracts.WithdrawProfit />
           <Contracts.FileUploader/>
+          <Contracts.UpdatePledgeCfg/>
         </>
       )}
     </div>
