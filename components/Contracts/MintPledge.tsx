@@ -61,10 +61,15 @@ export default function MintPledge() {
         overrides: {
             gasLimit: BigNumber.from(50000),
             gasPrice: utils.parseUnits('2', 'gwei')
-          },
+        },
     });
 
     const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
+    const handleWrite = () => {
+        write && write()
+        console.log(config)
+    }
 
     return (
         <div className={styles.borderedDiv} >
@@ -110,7 +115,7 @@ export default function MintPledge() {
                 value={pledgeDays}
                 onChange={(e) => setPledgeDays(parseInt(e.target.value, 10))}
             />
-            <button disabled={!write || isLoading} onClick={() => write && write()}>
+            <button disabled={!write || isLoading} onClick={handleWrite}>
                 {isLoading ? 'Minting...' : 'MintPledge'}
             </button>
             {isSuccess && (
