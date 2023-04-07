@@ -164,19 +164,19 @@ export default function SetPledgeCfg() {
         token: `0x` as `0x${string}`,
         tokenId: BigNumber.from(0),
         ercType: 0,
-        amount: BigNumber.from(0)
+        amount: 0 as unknown as BigNumber
     })
     const [payToken, setPayToken] = useState<PayToken>({
         token: `0x` as `0x${string}`,
         tokenId: BigNumber.from(0),
         ercType: 0,
-        amount: BigNumber.from(0)
+        amount: 0 as unknown as BigNumber
     })
     const [profitToken, setProfitToken] = useState<ProfitToken>({
         token: `0x` as `0x${string}`,
         tokenId: BigNumber.from(0),
         ercType: 0,
-        amount: BigNumber.from(0)
+        amount: 0 as unknown as BigNumber
     })
     const [pledgeReturn, setPledgeReturn] = useState<PledgeReturn>({
         profitType: 0,
@@ -240,7 +240,7 @@ export default function SetPledgeCfg() {
                 </label>
                 <label>
                     Amount:
-                    <input type="text" value={pledgeToken.amount as unknown as string} onChange={e => setPledgeToken({ ...pledgeToken, amount: BigNumber.from(e.target.value) })} />
+                    <input type="number" value={pledgeToken.amount as unknown as string} onChange={e => setPledgeToken({ ...pledgeToken, amount: (e.target.value) as unknown as BigNumber })} />
                 </label>
             </div>
             <div>
@@ -259,7 +259,7 @@ export default function SetPledgeCfg() {
                 </label>
                 <label>
                     Amount:
-                    <input type="text" value={payToken.amount as unknown as string} onChange={e => setPayToken({ ...payToken, amount: BigNumber.from(e.target.value) })} />
+                    <input type="number" value={payToken.amount as unknown as string} onChange={e => setPayToken({ ...payToken, amount: (e.target.value) as unknown as BigNumber })} />
                 </label>
             </div>
             <div>
@@ -278,7 +278,7 @@ export default function SetPledgeCfg() {
                 </label>
                 <label>
                     Amount:
-                    <input type="text" value={profitToken.amount as unknown as string} onChange={e => setProfitToken({ ...profitToken, amount: BigNumber.from(e.target.value) })} />
+                    <input type="number" value={profitToken.amount as unknown as string} onChange={e => setProfitToken({ ...profitToken, amount: (e.target.value) as unknown as BigNumber })} />
                 </label>
             </div>
             <div>
