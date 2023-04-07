@@ -61,7 +61,7 @@ export default function MintPledge() {
         overrides: {
             gasLimit: BigNumber.from(50000),
             gasPrice: utils.parseUnits('2', 'gwei')
-        },
+          },
     });
 
     const { data, isLoading, isSuccess, write } = useContractWrite(config);
