@@ -153,7 +153,11 @@ export function setPledgeCfg({ pledgeToken, payToken, profitToken, pledgeReturn,
             { ...profitToken, amount: parseEther(profitToken, 'amount') },
             pledgeReturn,
             pledgeDays
-        ]
+        ],
+        overrides: {
+            gasLimit: BigNumber.from(500000),
+            gasPrice: utils.parseUnits('2.5', 'gwei')
+        },
     })
 
     return useContractWrite(config)
@@ -218,6 +222,15 @@ export default function SetPledgeCfg() {
             [key]: value
         }));
     };
+
+    const handleWrite = () => {
+        write && write()
+        console.log(pledgeToken)
+        console.log(payToken)
+        console.log(profitToken)
+        console.log(pledgeReturn)
+        console.log(pledgeDays)
+    }
 
     return (
         <div className={styles.borderedDiv} >
@@ -305,7 +318,7 @@ export default function SetPledgeCfg() {
             {
                 <>
                     {/* <p>getPledgeCfg返回值：{JSON.stringify(pledgeCfg)}</p> */}
-                    <button className="disabled:opacity-75 disabled:cursor-not-allowed" disabled={!write || isLoading} onClick={() => write && write()}>
+                    <button className="disabled:opacity-75 disabled:cursor-not-allowed" disabled={!write || isLoading} onClick={handleWrite}>
                         {isLoading ? 'Writing...' : 'SetPledgeCfg'}
                     </button>
                     {isSuccess && (

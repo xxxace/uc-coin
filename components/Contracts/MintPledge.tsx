@@ -24,43 +24,43 @@ export default function MintPledge() {
     const { config } = usePrepareContractWrite({
         address: contract_address,
         abi: [{
-            inputs: [
-                {
-                    internalType: "address",
-                    name: "tokenAddr",
-                    type: "address"
-                },
-                {
-                    internalType: "uint256",
-                    name: "tokenId",
-                    type: "uint256"
-                },
-                {
-                    internalType: "uint256",
-                    name: "tokenAmount",
-                    type: "uint256"
-                },
-                {
-                    internalType: "string",
-                    name: "cid",
-                    type: "string"
-                },
-                {
-                    internalType: "uint16",
-                    name: "pledgeDays",
-                    type: "uint16"
-                }
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "tokenAddr",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "cid",
+                "type": "string"
+              },
+              {
+                "internalType": "uint32",
+                "name": "pledgeDays",
+                "type": "uint32"
+              }
             ],
-            name: "mintPledge",
-            outputs: [],
-            stateMutability: "payable",
-            type: "function"
-        }] as const,
+            "name": "mintPledge",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+          }] as const,
         functionName: 'mintPledge',
-        args: [tokenAddr as `0x${string}`, BigNumber.from(tokenId), BigNumber.from(tokenAmount ? utils.parseEther(tokenAmount.toString()) : '0'), cid, pledgeDays],
+        args: [tokenAddr as `0x${string}`, BigNumber.from(tokenId), BigNumber.from(tokenAmount), cid, pledgeDays],
         overrides: {
-            gasLimit: BigNumber.from(50000),
-            gasPrice: utils.parseUnits('2', 'gwei')
+            gasLimit: BigNumber.from(500000),
+            gasPrice: utils.parseUnits('2.5', 'gwei')
         },
     });
 
@@ -68,7 +68,11 @@ export default function MintPledge() {
 
     const handleWrite = () => {
         write && write()
-        console.log(config)
+        console.log('tokenAddr : ' + tokenAddr)
+        console.log('tokenId : ' + BigNumber.from(tokenId))
+        console.log('tokenAmount : ' + BigNumber.from(tokenAmount))
+        console.log('cid : ' + cid)
+        console.log('pledgeDays : ' + pledgeDays)
     }
 
     return (
