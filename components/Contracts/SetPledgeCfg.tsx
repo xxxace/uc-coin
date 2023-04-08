@@ -1,9 +1,7 @@
 import { BigNumber, utils } from "ethers";
 import { useState } from "react";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
-import { SendTransactionResult } from '@wagmi/core/dist/index'
 import { PledgeToken, ProfitToken, PayToken, PledgeReturn } from './type'
-import { getPledgeCfg } from "./GetPledgeCfg";
 import styles from '@/styles/test.module.css';
 
 const contract_address = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x{string}`
