@@ -13,7 +13,7 @@ function App({ Component, pageProps, router }: AppProps) {
   const [mdxClass, setMdxClass] = useState('')
 
   useEffect(() => {
-    router.pathname.indexOf('/doc/') === 0 && setMdxClass('container relative md:max-w-3xl py-6 lg:py-10 mx-auto px-4')
+    router.pathname.indexOf('/doc/') === 0 ? setMdxClass('container relative md:max-w-3xl py-6 lg:py-10 mx-auto px-4') : setMdxClass('')
   }, [router.pathname])
 
   return (

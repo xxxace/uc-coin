@@ -25,10 +25,10 @@ const wagmiClient = createClient({
     provider
 })
 
-export const withRainbowKitProvider = (app) => {
+export const withRainbowKitProvider = (app: (...args: any[]) => JSX.Element) => {
 
     return function (...args) {
-        
+
         return (
             <WagmiConfig client={wagmiClient}>
                 <RainbowKitProvider theme={{
