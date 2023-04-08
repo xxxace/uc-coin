@@ -52,7 +52,7 @@ export default function SetPledgeReturn() {
     return (
         <div className={styles.borderedDiv} >
             <p>
-                <span className={styles.boldText}>返回指定token在指定质押期内的收益情况(仅管理员操作)</span>。
+                <span className={styles.boldText}>1(仅管理员操作)</span>。
             </p>
             <label htmlFor="tokenAddr">Token Address:</label>
             <input

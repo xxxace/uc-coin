@@ -85,7 +85,7 @@ export default function GetPledgeInfo() {
     return (
         <div className={styles.borderedDiv}>
             <p>
-                <span className={styles.boldText}>返回指定token在指定质押期内的收益情况</span>。
+                <span className={styles.boldText}>返回(质押数量，质押时间，周期，收益token,释放收益,剩余可提取收益)</span>。
             </p>
             {/* <label htmlFor="acc">用户地址</label>
         <input id="acc" name="acc" type="text" value={acc} onChange={(e) => setAcc(e.target.value)} /> */}

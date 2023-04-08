@@ -16,7 +16,7 @@ function Test() {
 
           <Contracts.GetPledgeInfo />
 
-          <Contracts.GetPledgeReqire />
+          {/* <Contracts.GetPledgeReqire /> */}
 
           <Contracts.GetPledgeReturn />
 

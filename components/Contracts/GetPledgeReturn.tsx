@@ -20,7 +20,7 @@ export default function GetPledgeReturn() {
                 {
                     internalType: 'uint16',
                     name: 'pledgeDays',
-                    type: 'uint16'
+                    type: 'uint32'
                 }
             ],
             name: 'getPledgeReturn',
@@ -46,7 +46,7 @@ export default function GetPledgeReturn() {
     return (
         <div className={styles.borderedDiv} >
             <p>
-                <span className={styles.boldText}>返回指定token在指定质押期内的收益情况</span>。
+                <span className={styles.boldText}>查询质押收益信息（收益类型，收益值，是否按日结算）</span>。
             </p>
             <label>
                 Token Address:

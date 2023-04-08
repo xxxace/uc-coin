@@ -18,7 +18,7 @@ export default function GetPledgeReqire() {
     return (
         <div className={styles.borderedDiv} >
             <p>
-                <span className={styles.boldText}>返回指定token在指定质押期内的收益情况</span>。
+                <span className={styles.boldText}>1</span>。
             </p>
             <label>
                 Plg Token:
