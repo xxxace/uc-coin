@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useContractRead } from "wagmi"
 import styles from '@/styles/test.module.css';
+import ResultDetail from "./ResultDetail";
 
 const contract_address = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
 const wagmigotchiABI = [{
@@ -173,7 +174,22 @@ export default function GetPledgeCfg() {
                 ) : isError ? (
                     <p>查询出错，请重试。</p>
                 ) : (
-                    <p>合约方法返回值：{JSON.stringify(data)}</p>
+                    <>
+                        <p>合约方法返回值：</p>
+                        <p className="font-bold">质押Toekn(pledgeToken):</p>
+                        <ResultDetail data={data?.pledgeToken} />
+                        <p className="font-bold">支付Toekn(payToken):</p>
+                        <ResultDetail data={data?.payToken} />
+                        <p className="font-bold">收益Toekn(profitToken):</p>
+                        <ResultDetail data={data?.profitToken} />
+                        <p className="font-bold">质押收益(pledgeReturn):</p>
+                        <div>
+                            <p>收益类型(pledgeType):{data?.pledgeReturn.profitType}</p>
+                            <p>按天释放,false一次性释放(isDayRelease):{data?.pledgeReturn.isDayRelease.toString()}</p>
+                            <p>单日收益(profit):{data?.pledgeReturn.profit.toNumber()}</p>
+                        </div>
+                        <p className="font-bold">质押天数(pledgeDays): {data?.pledgeDays}</p>
+                    </>
                 )}
             </div>}
 

@@ -38,7 +38,7 @@ export default function GetPledgeReturn() {
             ],
             stateMutability: 'view',
             type: 'function'
-        }],
+        }] as const,
         functionName: 'getPledgeReturn',
         args: [tokenAddr as `0x${string}`, pledgeDays],
     });

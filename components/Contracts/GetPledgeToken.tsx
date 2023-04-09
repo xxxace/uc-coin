@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useContractRead } from "wagmi"
 import styles from '@/styles/test.module.css';
+import ResultDetail from "./ResultDetail";
 
 const contract_address = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
 const wagmigotchiABI = [{
@@ -84,7 +85,10 @@ export default function GetPledgeToken() {
                 ) : isError ? (
                     <p>查询出错，请重试。</p>
                 ) : (
-                    <p>合约方法返回值：{JSON.stringify(data)}</p>
+                    <div>
+                        <p>合约方法返回值：{JSON.stringify(data)}</p>
+                        <ResultDetail data={data} />
+                    </div>
                 )}
             </div>}
 

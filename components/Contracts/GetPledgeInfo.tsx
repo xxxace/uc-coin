@@ -72,7 +72,7 @@ export default function GetPledgeInfo() {
             ],
             stateMutability: "view",
             type: "function"
-        }],
+        }] as const,
         functionName: 'getPledgeInfo',
         args: [address as `0x${string}`, tokenAddr as `0x${string}`, BigNumber.from(tokenId)],
     })
@@ -103,7 +103,22 @@ export default function GetPledgeInfo() {
                         ) : isError ? (
                             <p>查询出错，请重试。</p>
                         ) : (
-                            <p>合约方法返回值：{JSON.stringify(data)}</p>
+                            <>
+                                <p>合约方法返回值：</p>
+                                {data && (
+                                    <>
+                                        <p className="font-bold">质押收益(pledgeReturn):</p>
+                                        <div>
+                                            <p>质押数量:{data[0].toNumber()}</p>
+                                            <p>质拥时间:{data[1].toString()}</p>
+                                            <p>周期:{data[2]}</p>
+                                            <p>收益Toekn:{data[3]}</p>
+                                            <p>释放收益:{data[4].toNumber()}</p>
+                                            <p>剩余可提取收益:{data[5].toNumber()}</p>
+                                        </div>
+                                    </>
+                                )}
+                            </>
                         )}
                     </div>
                 )}
