@@ -87,7 +87,7 @@ export default function GetProfitToken() {
                     <p>查询出错，请重试。</p>
                 ) : (
                     <div>
-                        <p>合约方法返回值：{JSON.stringify(data)}</p>
+                        <p>合约方法返回值：</p>
                         <ResultDetail data={data} />
                     </div>
                 )}
