@@ -11,7 +11,7 @@ export default function GetPledgeReqire() {
     const { data, isError, isLoading } = useContractRead({
         address: contract_address,
         abi: mainAbi.getPledgeReqireAbi,
-        functionName: 'getPledgeReqireAbi',
+        functionName: 'getPledgeReqire',
         args: [plgToken],
     });
 
