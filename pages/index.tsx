@@ -18,7 +18,7 @@ export default function Home() {
           priority
         /> */}
           <h1 className='text-5xl md:text-[76px] font-md text-black font-cal dark:text-white'>
-            <span>UNcoin</span>
+            <span>UCcoin</span>
           </h1>
           <p className='leading-8 text-sm text-center text-gray-900 md:text-5xl dark:text-gray-100'>On chain derivatives service platform</p>
         </div>
