@@ -9,13 +9,6 @@ const pay_contract_address = process.env.NEXT_PUBLIC_PAY_TOKEN as `0x${string}`
 
 export default function Approve() {
 
-    // "details": "铸造NFT(本合约必须先成为NFT合约miner)",
-    // "params": {
-    //   "cid": "nft cid",
-    //   "tokenAddr": "合约地址",
-    //   "tokenAmount": "数量",
-    //   "tokenId": "tokenId"
-    // }
     const [spender, setSpender] = useState('');
     const [tokenAmount, setTokenAmount] = useState(0);
 
