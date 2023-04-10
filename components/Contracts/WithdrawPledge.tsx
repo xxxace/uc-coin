@@ -38,7 +38,7 @@ export default function WithdrawPledge() {
     return (
         <div className={styles.borderedDiv} >
             <p>
-                <span className={styles.boldText}>WithdrawPledge</span>。
+                <span className={styles.boldText}>撤销抵押</span>。
             </p>
             <label>
                 PLG Token:
