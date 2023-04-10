@@ -82,7 +82,7 @@ export default function GetPledgeInfo() {
     };
     
 
-
+    
     return (
         <div className={styles.borderedDiv}>
             <p>
