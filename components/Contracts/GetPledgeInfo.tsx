@@ -80,6 +80,7 @@ export default function GetPledgeInfo() {
     const handleButtonClick = async () => {
         setShowResult(true);
     };
+    
 
 
     return (
@@ -110,7 +111,7 @@ export default function GetPledgeInfo() {
                                         <p className="font-bold">质押收益(pledgeReturn):</p>
                                         <div>
                                             <p>质押数量:{data[0].toNumber()}</p>
-                                            <p>质拥时间:{data[1].toString()}</p>
+                                            <p>质押时间:{new Date(data[1].toNumber() * 1000).toLocaleString()}</p>
                                             <p>周期:{data[2]}</p>
                                             <p>收益Toekn:{data[3]}</p>
                                             <p>释放收益:{data[4].toNumber()}</p>
