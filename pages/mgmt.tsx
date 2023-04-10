@@ -14,36 +14,12 @@ function Test() {
 
           <Contracts.GetPledgeCfg />
 
-          <Contracts.GetPledgeInfo />
-
-          {/* <Contracts.GetPledgeReqire /> */}
-
-          <Contracts.GetPledgeReturn />
-
           <Contracts.GetPledgeToken />
 
           <Contracts.GetProfitToken />
 
-          {/* <Contracts.Mint /> */}
-
-          <Contracts.MintPledge />
-
-          <Contracts.PledgeToken />
-
-          {/* <Contracts.SetMintCfg /> */}
-
           <Contracts.SetPledgeCfg />
 
-          {/* <Contracts.SetPledgeReqire /> */}
-
-          {/* <Contracts.SetPledgeReturn /> */}
-
-          {/* <Contracts.UpdateMintCfg /> */}
-
-          <Contracts.WithdrawPledge />
-
-          <Contracts.WithdrawProfit />
-          <Contracts.FileUploader/>
           <Contracts.UpdatePledgeCfg/>
         </>
       )}
