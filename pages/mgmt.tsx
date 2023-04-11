@@ -1,8 +1,14 @@
 import { useAccount } from 'wagmi'
 import * as Contracts from '@/components/Contracts'
+import { useEffect, useState } from 'react'
 
-function Test() {
-  const { isConnected } = useAccount()
+function Mgmt() {
+  const res = useAccount()
+  const [isConnected, setIsConnected] = useState(false)
+
+  useEffect(() => {
+    setIsConnected(res.isConnected)
+  }, [res.isConnected])
 
   return (
     <div className='test min-h-[100px] py-4'>
@@ -20,7 +26,7 @@ function Test() {
 
           <Contracts.SetPledgeCfg />
 
-          <Contracts.UpdatePledgeCfg/>
+          <Contracts.UpdatePledgeCfg />
         </>
       )}
     </div>
@@ -28,4 +34,4 @@ function Test() {
 }
 
 
-export default Test
+export default Mgmt
