@@ -21,6 +21,18 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
+  // webpack: (config, { dev }) => {
+  //   // 将 NODE_TLS_REJECT_UNAUTHORIZED 环境变量设置为 0，以禁用 TLS 验证。
+  //   if (dev) {
+  //     config.node = {
+  //       ...config.node,
+  //       tls: 'empty',
+  //     };
+
+  //     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  //   }
+  //   return config;
+  // }
 }
 
 module.exports = withMDX(nextConfig)

@@ -4,10 +4,11 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from "react";
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useTheme } from "next-themes";
 
 const navList = [{
     name: '关于',
-    pathname: '/doc/about'
+    pathname: '/docs/about'
 }]
 
 function getNavList(pathname: string) {
@@ -27,25 +28,49 @@ function renderIcon(isDark: boolean) {
 
 export default function NavBar() {
     const router = useRouter()
-    const [isDark, setIsDark] = useState(false)
+    const [mounted, setMounted] = useState(false)
+    const { theme, setTheme } = useTheme();
+    const [isDark, setIsDark] = useState(theme === 'dark')
     const switchTheme = (val) => {
-        setIsDark(val)
-        if (val) {
-            document.documentElement.classList.add('dark')
-            localStorage.setItem('theme', 'dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-            localStorage.setItem('theme', '')
-        }
+        // setIsDark(val)
+        // if (val) {
+        //     document.documentElement.classList.add('dark')
+        //     document.documentElement.classList.remove('light')
+        //     localStorage.setItem('theme', 'dark')
+        // } else {
+        //     document.documentElement.classList.remove('dark')
+        //     document.documentElement.classList.add('light')
+        //     localStorage.setItem('theme', 'light')
+        // }
+
+        const newTheme = isDark ? 'light' : 'dark';
+        console.log(newTheme)
+        setTheme(newTheme);
+        setIsDark(!isDark);
+        localStorage.setItem('theme', newTheme);
     }
 
+    // useEffect(() => {
+    //     const theme = localStorage.getItem('theme') || 'light'
+    //     document.documentElement.classList.add(theme)
+    //     setIsDark(theme === 'dark')
+    // }, [])
+
     useEffect(() => {
-        const cache = !!localStorage.getItem('theme')
-        if (cache) {
-            document.documentElement.classList.add('dark')
+        setMounted(true)
+        // 在组件挂载时，从本地存储中加载之前的主题设置
+        const storedTheme = localStorage.getItem('theme');
+
+        if (storedTheme) {
+            setIsDark(storedTheme === 'dark');
+            console.log(isDark)
         }
-        setIsDark(cache)
-    }, [])
+    }, []);
+
+    if (!mounted) {
+        return null
+    }
+
 
     return (
         <header className="sticky top-0 z-20 border-t border-transparent block backdrop-blur-md bg-white/75 dark:bg-[rgba(12,12,13,.75)] md:shadow shadow-gray-200 dark:shadow-gray-900">
@@ -63,7 +88,7 @@ export default function NavBar() {
                                 {getNavList(router.pathname)}
                             </ul>
                             <div className="flex items-center ml-6 px-6">
-                                <div className="hidden md:block"> 
+                                <div className="hidden md:block">
                                     <Switch icon={renderIcon(isDark)} checked={isDark} onChange={switchTheme} />
                                 </div>
                                 <div className="ml-4">

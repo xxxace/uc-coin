@@ -2,37 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+.light:root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
+  color-scheme: light;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-html.dark {
-  --foreground-rgb: 207, 207, 207;
-  --background-start-rgb: 12, 12, 13;
-  --background-end-rgb: 12, 12, 13;
+.light {
+  color-scheme: light;
 }
 
 .u-bg-white {
   background-color: #ffffff;
-}
-
-html.dark .u-bg-white {
-  background-color: #0c0c0d;
-}
-
-html.dark .u-border-gray-200 {
-  --tw-border-opacity: 1;
-  border-color: #27272a;
-  border-color: rgb(39 39 42/var(--tw-border-opacity));
 }
 
 body {
@@ -51,10 +33,6 @@ li.active a {
   outline: 2px solid transparent;
   outline-offset: 2px;
   background-color: #f4f4f5;
-}
-
-html.dark li.active a {
-  background-color: #18181b;
 }
 
 ::-webkit-scrollbar {
@@ -78,6 +56,37 @@ html.dark li.active a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a0a0aa;
+}
+
+.dark:root {
+  --foreground-rgb: 207, 207, 207;
+  --background-start-rgb: 12, 12, 13;
+  --background-end-rgb: 12, 12, 13;
+  color-scheme: dark;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+html.dark {
+  --foreground-rgb: 207, 207, 207;
+  --background-start-rgb: 12, 12, 13;
+  --background-end-rgb: 12, 12, 13;
+}
+
+html.dark .u-bg-white {
+  background-color: #0c0c0d;
+}
+
+html.dark .u-border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: #27272a;
+  border-color: rgb(39 39 42/var(--tw-border-opacity));
+}
+
+html.dark li.active a {
+  background-color: #18181b;
 }
 
 html.dark ::-webkit-scrollbar-thumb {
